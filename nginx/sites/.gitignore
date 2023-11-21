@@ -1,2 +1,5 @@
 *.conf
+*.example
 !default.conf
+!default-production.conf.example
+!domain.com.conf.example

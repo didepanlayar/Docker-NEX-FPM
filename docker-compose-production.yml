@@ -1,0 +1,41 @@
+version: "3.8"
+services:
+  # Application
+  application:
+    container_name: nex-fpm
+    image: didepanlayar/nex-fpm:7.4.33
+    ports:
+      - "${NGINX_HOST_HTTP_PORT}:80"
+      - "${NGINX_HOST_HTTPS_PORT}:443"
+    volumes:
+      - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}${APP_CODE_CONTAINER_FLAG}
+      - ${NGINX_HOST_LOG_PATH}:/var/log/nginx
+      - ${NGINX_SITES_PATH}:/etc/nginx/http.d
+      - ${NGINX_SSL_PATH}:/etc/nginx/ssl
+      - ./php-fpm/php.ini:/usr/local/etc/php/php.ini
+      - ./logs/supervisor/supervisord.log:/var/log/supervisord.log
+    working_dir: ${APP_CODE_PATH_CONTAINER}
+    networks:
+      - backend
+      - frontend
+  # Database
+  database:
+    container_name: mariadb
+    image: mariadb:${MARIADB_VERSION}
+    ports:
+      - "${MARIADB_PORT}:3306"
+    environment:
+      - MYSQL_DATABASE=${MARIADB_DATABASE}
+      - MYSQL_USER=${MARIADB_USER}
+      - MYSQL_PASSWORD=${MARIADB_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${MARIADB_ROOT_PASSWORD}
+    volumes:
+      - ${DATA_PATH_HOST}/mariadb:/var/lib/mysql
+    networks:
+      - backend
+
+networks:
+  frontend:
+    driver: ${NETWORKS_DRIVER}
+  backend:
+    driver: ${NETWORKS_DRIVER}

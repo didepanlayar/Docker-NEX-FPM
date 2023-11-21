@@ -2,6 +2,11 @@
 data/*
 *.log
 *.OLD
+*.crt
+*.pem
+*.cer
+*.der
+*.key
 .env
 .DS_Store
 !.gitkeep
