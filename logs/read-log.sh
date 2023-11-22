@@ -6,7 +6,8 @@ Yellow='\e[1;33m'
 NC='\e[0m'
 read -p "Number of Rows: " GET_ROW
 [[ -z ${GET_ROW} ]] && GET_ROW=100
-data=(`find logs -name *.log`)
+WORK_DIR=$(dirname "$0")
+data=(`find $WORK_DIR -name *.log`)
 for log in "${data[@]}"; do
     echo -e ""
     echo -e "${Yellow}READ${NC}: Read file ${Green}$log${NC}"
