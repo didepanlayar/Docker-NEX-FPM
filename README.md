@@ -35,13 +35,17 @@ All images are used:
 │   ├── config.sh
 │   └── supervisord.conf
 ├── data
+├── docker-compose-production.yml
 ├── docker-compose.yml
 ├── logs
+│   ├── clear-log.sh
 │   ├── nginx
+│   ├── read-log.sh
 │   └── supervisor
 │       └── supervisord.log
 ├── nginx
 │   ├── sites
+│   │   ├── default-production.conf.example
 │   │   ├── default.conf
 │   │   └── domain.com.conf.example
 │   └── ssl
@@ -78,6 +82,37 @@ MARIADB_ROOT_PASSWORD=root
 ```
 
 ## Run
+This command is for running a service without a build image, such as pulling from Docker Hub for the [didepanlayar/nex-fpm](https://hub.docker.com/r/didepanlayar/nex-fpm) repository.
+
+1. Copy and modify the `.env` file.
+
+    ```sh
+    cp .env.example .env
+    ```
+
+    Modify the `.env` file with the following [Environment](#environment) above.
+
+2. Start services.
+
+    ```sh
+    docker-compose -f docker-compose-production.yml up -d
+    ```
+
+3. Stop services.
+
+    ```sh
+    docker-compose -f docker-compose-production.yml stop
+    ```
+
+4. Clear services.
+
+    ```sh
+    docker-compose -f docker-compose-production.yml down -v
+    ```
+
+## Build
+Build image with `Dockerfile`.
+
 1. Copy and modify the `.env` file.
 
     ```sh
